@@ -6,6 +6,8 @@ CREATE TABLE IF NOT EXISTS users (
   email TEXT UNIQUE NOT NULL,
   avatar_color TEXT NOT NULL,
   role_title TEXT NOT NULL,
+  department TEXT NOT NULL DEFAULT 'Core Team',
+  password TEXT NOT NULL DEFAULT 'ajaia2026',
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 

@@ -6,6 +6,7 @@ export interface User {
   email: string;
   avatar_color: string;
   role_title: string;
+  department?: string;
 }
 
 export interface Collaborator {
@@ -17,6 +18,7 @@ export interface Collaborator {
   email: string;
   avatar_color: string;
   role_title: string;
+  department?: string;
 }
 
 export interface Attachment {

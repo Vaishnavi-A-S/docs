@@ -141,16 +141,18 @@ npm test
 
 ---
 
-## 👥 Seeded Test Accounts & Sharing Review
+## 👥 4 Seeded Team Accounts & Sign-In Page
 
-The top-right **Persona Switcher** allows you to switch between 4 test users in one click:
+The application includes an **Enterprise Sign-In Page** with one-click persona cards and manual email login:
 
-| Account ID | Name | Role Title | How to Test |
-| :--- | :--- | :--- | :--- |
-| `user-vaishnavi` | **Vaishnavi A S** | Lead Candidate & Author | Default owner. Test document creation, editing, sharing, and file attachments. |
-| `user-alex` | **Alex Rivera** | Product Reviewer | Test **Editor** permissions. Can edit shared documents, cannot delete. |
-| `user-priya` | **Priya Sharma** | Senior Tech Lead | Test **Viewer** permissions. Can view documents, editor is locked into read-only. |
-| `user-sam` | **Sam Taylor** | UX Designer | Test unauthorized access restrictions. |
+| Account ID | Name | Corporate Email | Seeded Role & Department | Password | How to Test |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| `user-vaishnavi` | **Vaishnavi A S** | `vaishnavi@ajaia.io`<br>*(alias: `2023vaishnavi.as@vidyashilp.edu.in`)* | Lead Product Engineer<br>*(Product & Core)* | `password123` | Default Owner. Test document creation, editing, file attachments, and sharing. |
+| `user-alex` | **Alex Rivera** | `alex.rivera@ajaia.io` | Director of Product<br>*(Evaluation Team)* | `password123` | Test **Editor** role: can edit shared documents, cannot delete or change ownership. |
+| `user-priya` | **Priya Sharma** | `priya.sharma@ajaia.io` | Staff Systems Architect<br>*(Platform Eng)* | `password123` | Test **Viewer** role: read-only mode, disabled toolbar, 403 Forbidden on write. |
+| `user-marcus` | **Marcus Chen** | `marcus.chen@ajaia.io` | Security & Compliance Lead<br>*(Information Security)* | `password123` | Test non-collaborator access restrictions and policy boundaries. |
+
+> 💡 **Sign-In Flow:** When launching the app, you can click on any of the 4 team cards to sign in instantly, or enter their email and password (`password123`). In the top-right profile avatar menu, click **"Sign out of workspace"** anytime to return to the Sign-In page!
 
 ---
 

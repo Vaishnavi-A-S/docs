@@ -24,14 +24,14 @@
 ---
 
 ## 2. Seeded Test Accounts Reference
-To make evaluation frictionless, the application includes a **top-right Persona Switcher** and pre-seeded database accounts. No password typing or complex auth setup required:
+The application includes a **Dedicated Sign-In Page** and an in-app **Persona Switcher** with 4 pre-seeded corporate accounts:
 
-| User Account | Name | Seeded Role / Title | Testing Purpose |
-| :--- | :--- | :--- | :--- |
-| `user-vaishnavi` | **Vaishnavi A S** (Default) | Lead Candidate & Author | Test owner permissions, document creation, and sharing. |
-| `user-alex` | **Alex Rivera** | Product Reviewer | Test **Editor** role: can edit shared documents, cannot delete or change ownership. |
-| `user-priya` | **Priya Sharma** | Senior Tech Lead | Test **Viewer** role: read-only mode, disabled toolbar, 403 Forbidden on write. |
-| `user-sam` | **Sam Taylor** | UX Designer | Test unauthorized / non-collaborator access restrictions. |
+| User Account | Name | Email | Seeded Role & Department | Password | Testing Purpose |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| `user-vaishnavi` | **Vaishnavi A S** (Default) | `vaishnavi@ajaia.io`<br>*(or `2023vaishnavi.as@vidyashilp.edu.in`)* | Lead Product Engineer<br>*(Product & Core)* | `password123` | Test owner permissions, document creation, and sharing. |
+| `user-alex` | **Alex Rivera** | `alex.rivera@ajaia.io` | Director of Product<br>*(Product Evaluation)* | `password123` | Test **Editor** role: can edit shared documents, cannot delete or change ownership. |
+| `user-priya` | **Priya Sharma** | `priya.sharma@ajaia.io` | Staff Systems Architect<br>*(Platform Eng)* | `password123` | Test **Viewer** role: read-only mode, disabled toolbar, 403 Forbidden on write. |
+| `user-marcus` | **Marcus Chen** | `marcus.chen@ajaia.io` | Security & Compliance Lead<br>*(InfoSec)* | `password123` | Test unauthorized / non-collaborator access restrictions. |
 
 ---
 

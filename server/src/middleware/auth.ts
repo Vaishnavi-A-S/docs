@@ -7,6 +7,7 @@ export interface User {
   email: string;
   avatar_color: string;
   role_title: string;
+  department?: string;
   created_at: string;
 }
 

@@ -23,10 +23,10 @@ describe('Document Sharing and Access Control API', () => {
   });
 
   it('unauthorized user should receive 403 Forbidden', async () => {
-    // Sam is not a collaborator yet
+    // Marcus is not a collaborator on this document
     const res = await request(app)
       .get(`/api/documents/${docId}`)
-      .set('x-user-id', 'user-sam');
+      .set('x-user-id', 'user-marcus');
 
     expect(res.status).toBe(403);
     expect(res.body.error).toContain('Forbidden');

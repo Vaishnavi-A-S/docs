@@ -4,6 +4,7 @@ import path from 'path';
 import fs from 'fs';
 import { authMiddleware } from './middleware/auth.js';
 import { errorHandler } from './middleware/errorHandler.js';
+import authRouter from './routes/auth.js';
 import usersRouter from './routes/users.js';
 import documentsRouter from './routes/documents.js';
 import filesRouter from './routes/files.js';
@@ -19,6 +20,9 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', service: 'Ajaia Docs API', timestamp: new Date().toISOString() });
 });
+
+// Authentication routes (public)
+app.use('/api/auth', authRouter);
 
 // Authenticated API routes
 app.use('/api/users', authMiddleware, usersRouter);

@@ -2,57 +2,65 @@ import { db, initDb } from './index.js';
 import { v4 as uuidv4 } from 'uuid';
 
 export function seed() {
-  initDb();
+  console.log('🌱 Seeding database with 4 corporate team members and Google Docs templates...');
 
-  console.log('🌱 Seeding database...');
-
-  // Clear existing data in correct dependency order
+  // Drop tables to apply updated schema
   db.exec(`
-    DELETE FROM document_versions;
-    DELETE FROM document_attachments;
-    DELETE FROM document_collaborators;
-    DELETE FROM documents;
-    DELETE FROM users;
+    DROP TABLE IF EXISTS document_versions;
+    DROP TABLE IF EXISTS document_attachments;
+    DROP TABLE IF EXISTS document_collaborators;
+    DROP TABLE IF EXISTS documents;
+    DROP TABLE IF EXISTS users;
   `);
 
+  initDb();
+
   const insertUser = db.prepare(`
-    INSERT INTO users (id, name, email, avatar_color, role_title)
-    VALUES (?, ?, ?, ?, ?)
+    INSERT INTO users (id, name, email, avatar_color, role_title, department, password)
+    VALUES (?, ?, ?, ?, ?, ?, ?)
   `);
 
   const users = [
     {
       id: 'user-vaishnavi',
       name: 'Vaishnavi A S',
-      email: '2023vaishnavi.as@vidyashilp.edu.in',
-      avatarColor: '#2563eb', // Blue
-      roleTitle: 'Lead Candidate & Author'
+      email: 'vaishnavi@ajaia.io',
+      avatarColor: '#1a73e8', // Google Docs Blue
+      roleTitle: 'Lead Product Engineer (Candidate)',
+      department: 'Product Engineering',
+      password: 'password123'
     },
     {
       id: 'user-alex',
       name: 'Alex Rivera',
       email: 'alex.rivera@ajaia.io',
-      avatarColor: '#7c3aed', // Purple
-      roleTitle: 'Product Reviewer'
+      avatarColor: '#9333ea', // Purple
+      roleTitle: 'Director of Product Management',
+      department: 'Product Evaluation',
+      password: 'password123'
     },
     {
       id: 'user-priya',
       name: 'Priya Sharma',
       email: 'priya.sharma@ajaia.io',
-      avatarColor: '#059669', // Emerald
-      roleTitle: 'Senior Tech Lead'
+      avatarColor: '#0d9488', // Teal
+      roleTitle: 'Staff Systems Architect',
+      department: 'Platform Engineering',
+      password: 'password123'
     },
     {
-      id: 'user-sam',
-      name: 'Sam Taylor',
-      email: 'sam.taylor@ajaia.io',
-      avatarColor: '#d97706', // Amber
-      roleTitle: 'UX Designer'
+      id: 'user-marcus',
+      name: 'Marcus Chen',
+      email: 'marcus.chen@ajaia.io',
+      avatarColor: '#ea580c', // Orange/Amber
+      roleTitle: 'Security & Compliance Lead',
+      department: 'Information Security',
+      password: 'password123'
     }
   ];
 
   for (const u of users) {
-    insertUser.run(u.id, u.name, u.email, u.avatarColor, u.roleTitle);
+    insertUser.run(u.id, u.name, u.email, u.avatarColor, u.roleTitle, u.department, u.password);
   }
 
   const insertDoc = db.prepare(`
@@ -191,7 +199,7 @@ if (!canEdit) throw new ForbiddenError('Viewing mode only');</code></pre>
   // Vaishnavi is a Viewer on Doc 3!
   insertCollab.run(uuidv4(), doc3Id, 'user-vaishnavi', 'viewer');
 
-  // Document 4: Getting Started (Owned by Vaishnavi)
+  // Document 4: Getting Started Guide (Owned by Vaishnavi)
   const doc4Id = 'doc-getting-started';
   const doc4Content = `
     <h1>Welcome to Ajaia Docs 🚀</h1>
@@ -201,7 +209,7 @@ if (!canEdit) throw new ForbiddenError('Viewing mode only');</code></pre>
     <ul>
       <li><strong>Rich Text Formatting:</strong> Select text to apply bold, italics, underlines, bulleted/numbered lists, or headings.</li>
       <li><strong>Dynamic Renaming:</strong> Click on the title in the top toolbar to rename the document with instant auto-save.</li>
-      <li><strong>Simulated User Switching:</strong> Use the user switcher in the top right to switch between <em>Vaishnavi</em> (Owner), <em>Alex</em> (Editor), and <em>Priya</em> (Viewer) to see permissions adapt live!</li>
+      <li><strong>Simulated User Switching & Sign In:</strong> Sign in as <em>Vaishnavi</em> (Owner), <em>Alex</em> (Editor), <em>Priya</em> (Viewer), or <em>Marcus</em> to see permissions adapt live!</li>
       <li><strong>File Upload & Ingestion:</strong> Click "Import File" to upload any Markdown or TXT file into a brand new document!</li>
       <li><strong>File Attachments:</strong> Attach files directly to this document using the paperclip attachment panel.</li>
       <li><strong>Document Sharing:</strong> Open the "Share" modal to grant viewer or editor rights to another team member or revoke them.</li>
@@ -220,7 +228,7 @@ if (!canEdit) throw new ForbiddenError('Viewing mode only');</code></pre>
     '-2 minutes'
   );
 
-  console.log('✅ Database seeded successfully with 4 users and 4 rich documents!');
+  console.log('✅ Database seeded successfully with 4 corporate team users and 4 rich documents!');
 }
 
 // Allow direct CLI execution

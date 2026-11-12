@@ -4,7 +4,8 @@ import StarterKit from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
 import TextAlign from '@tiptap/extension-text-align';
 import Placeholder from '@tiptap/extension-placeholder';
-import { EditorToolbar } from './EditorToolbar';
+import { GoogleDocsToolbar } from '../GoogleDocs/GoogleDocsToolbar';
+import { GoogleDocsRuler } from '../GoogleDocs/GoogleDocsRuler';
 import { WordCounter } from './WordCounter';
 
 interface RichTextEditorProps {
@@ -38,7 +39,7 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
         types: ['heading', 'paragraph']
       }),
       Placeholder.configure({
-        placeholder: 'Type something wonderful, or paste notes here...'
+        placeholder: 'Type @ to insert people, files, and more, or just start writing...'
       })
     ],
     content: initialContent,
@@ -118,8 +119,9 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
   const currentHtml = editor ? editor.getHTML() : initialContent;
 
   return (
-    <div className="flex flex-col flex-1 bg-[#f0f3f6] min-h-screen">
-      <EditorToolbar
+    <div className="flex flex-col flex-1 bg-[#f8f9fa] min-h-screen">
+      {/* 1. Google Docs Action Toolbar */}
+      <GoogleDocsToolbar
         editor={editor}
         canEdit={canEdit}
         isSaving={isSaving}
@@ -127,11 +129,18 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
         userRole={userRole}
       />
 
-      {/* Google Docs Canvas Workspace */}
-      <div className="flex-1 overflow-y-auto px-4 py-8 flex justify-center">
+      {/* 2. Interactive Document Ruler */}
+      <GoogleDocsRuler />
+
+      {/* 3. Google Docs Physical Paper Canvas */}
+      <div className="flex-1 overflow-y-auto px-4 py-6 flex justify-center bg-[#f8f9fa]">
         <div
-          className="w-full max-w-[850px] bg-white rounded-sm shadow-md border border-slate-200/80 min-h-[950px] p-12 sm:p-16 mb-20 print-page transition-shadow"
-          style={{ minHeight: '1050px' }}
+          className="w-full max-w-[850px] bg-white rounded-[2px] transition-all print-page"
+          style={{
+            minHeight: '1056px',
+            padding: '72px 72px 96px 72px',
+            boxShadow: '0 1px 3px 1px rgba(60,64,67,.15), 0 1px 2px 0 rgba(60,64,67,.3)'
+          }}
         >
           <EditorContent editor={editor} />
         </div>

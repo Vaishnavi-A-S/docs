@@ -5,7 +5,7 @@ const router = Router();
 
 // GET /api/users - List all seeded users
 router.get('/', (req, res) => {
-  const users = db.prepare('SELECT id, name, email, avatar_color, role_title, created_at FROM users ORDER BY name ASC').all();
+  const users = db.prepare('SELECT id, name, email, avatar_color, role_title, department, created_at FROM users ORDER BY name ASC').all();
   res.json({ users });
 });
 

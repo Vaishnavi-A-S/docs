@@ -34,10 +34,26 @@ async function fetchWithAuth(url: string, options: RequestInit = {}): Promise<an
   return data;
 }
 
-// Users
+// Users & Auth
 export async function getUsers(): Promise<User[]> {
   const data = await fetchWithAuth('/api/users');
   return data.users;
+}
+
+export async function loginUser(credentials: { email?: string; password?: string; userId?: string }): Promise<User> {
+  const res = await fetchWithAuth('/api/auth/login', {
+    method: 'POST',
+    body: JSON.stringify(credentials)
+  });
+  if (res.user) {
+    setActiveUserHeader(res.user.id);
+  }
+  return res.user;
+}
+
+export async function logoutUser(): Promise<void> {
+  await fetchWithAuth('/api/auth/logout', { method: 'POST' }).catch(() => {});
+  localStorage.removeItem('ajaia_active_user_id');
 }
 
 // Documents

@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useAuth } from './context/AuthContext';
-import { Navbar } from './components/Navbar';
-import { DashboardHeader } from './components/Dashboard/DashboardHeader';
-import { DocumentList } from './components/Dashboard/DocumentList';
+import { SignInPage } from './components/Auth/SignInPage';
+import { GoogleDocsHeader } from './components/GoogleDocs/GoogleDocsHeader';
+import { GoogleDocsDashboard } from './components/GoogleDocs/GoogleDocsDashboard';
+import { GoogleDocsShareDialog } from './components/GoogleDocs/GoogleDocsShareDialog';
 import { RichTextEditor } from './components/Editor/RichTextEditor';
-import { ShareModal } from './components/Modals/ShareModal';
 import { FileUploadModal } from './components/Modals/FileUploadModal';
 import { AttachmentsDrawer } from './components/Modals/AttachmentsDrawer';
 import { VersionHistoryModal } from './components/Modals/VersionHistoryModal';
-import { DocumentListItem, DocumentDetail, Collaborator, Attachment } from './types';
+import { DocumentListItem, DocumentDetail, Collaborator } from './types';
 import {
   getDocuments,
   getDocument,
@@ -61,8 +61,10 @@ export const App: React.FC = () => {
   }, [currentUser, activeTab, searchQuery]);
 
   useEffect(() => {
-    loadDocuments();
-  }, [loadDocuments]);
+    if (currentUser) {
+      loadDocuments();
+    }
+  }, [currentUser, loadDocuments]);
 
   // Load single document when activeDocId changes or active user changes
   const loadActiveDoc = useCallback(async (docId: string) => {
@@ -80,10 +82,23 @@ export const App: React.FC = () => {
   }, [loadDocuments]);
 
   useEffect(() => {
-    if (activeDocId) {
+    if (activeDocId && currentUser) {
       loadActiveDoc(activeDocId);
     }
   }, [activeDocId, currentUser, loadActiveDoc]);
+
+  // If user is not signed in, show the dedicated Google Docs Sign-In page
+  if (authLoading) {
+    return (
+      <div className="min-h-screen bg-[#f8f9fa] flex items-center justify-center text-xs text-slate-500">
+        Loading workspace...
+      </div>
+    );
+  }
+
+  if (!currentUser) {
+    return <SignInPage />;
+  }
 
   // Document actions
   const handleOpenDoc = (id: string) => {
@@ -97,34 +112,52 @@ export const App: React.FC = () => {
   };
 
   const handleCreateDocument = async (template?: string) => {
-    let title = 'Untitled Document';
+    let title = 'Untitled document';
     let content = '<p></p>';
 
     if (template === 'strategy') {
-      title = 'Product Strategy & Vision';
+      title = 'Project Proposal: Next-Gen AI Workspace';
       content = `
-        <h1>Product Strategy & Vision</h1>
-        <p>Target customer persona, key user friction points, and proposed technical architecture.</p>
-        <h2>Executive Summary</h2>
-        <p>Outline the 30-day velocity targets and customer success metrics.</p>
-        <h2>Success Metrics</h2>
+        <h1>Project Proposal: Next-Gen AI Workspace</h1>
+        <p>Author: <strong>${currentUser.name}</strong> (${currentUser.role_title})</p>
+        <h2>1. Executive Summary</h2>
+        <p>Ajaia Docs empowers cross-functional teams to author, collaborate, and ship high-impact knowledge without friction.</p>
+        <h2>2. Key Objectives</h2>
         <ul>
-          <li>70% reduction in document friction</li>
-          <li>Sub-100ms editor responsiveness</li>
+          <li><strong>Sub-millisecond responsiveness:</strong> Zero keystroke delay on all modern hardware.</li>
+          <li><strong>Granular Role Enforcement:</strong> Explicit owner, editor, and viewer boundary controls.</li>
+          <li><strong>Cross-format Portability:</strong> Import from Markdown and export to PDF.</li>
         </ul>
+        <h2>3. Target Milestones</h2>
+        <ol>
+          <li>Phase 1: Zero-latency document canvas & persistence engine.</li>
+          <li>Phase 2: Enterprise role-based access control and file attachments.</li>
+        </ol>
+      `;
+    } else if (template === 'notes') {
+      title = 'Sprint 42: Team Review & Planning Notes';
+      content = `
+        <h1>Sprint 42: Team Review & Planning Notes</h1>
+        <p>Date: <strong>${new Date().toLocaleDateString()}</strong> • Facilitator: <strong>${currentUser.name}</strong></p>
+        <h2>Agenda</h2>
+        <ul>
+          <li>Sprint retrospective and key achievements</li>
+          <li>Technical architecture tradeoffs and AI tool evaluation</li>
+          <li>Upcoming deliverables for review</li>
+        </ul>
+        <blockquote>"Prioritize depth in core user flows over shallow coverage everywhere."</blockquote>
       `;
     } else if (template === 'rfc') {
-      title = 'RFC: Distributed Collaboration Model';
+      title = 'RFC 104: Secure Relational Persistence Model';
       content = `
-        <h1>RFC: Distributed Collaboration Model</h1>
-        <p>Author: <strong>${currentUser?.name}</strong></p>
-        <h2>Context & Background</h2>
-        <p>Architectural proposal for lightweight collaborative document syncing.</p>
-        <h2>Proposed Implementation</h2>
-        <pre><code>interface SyncEvent {
-  docId: string;
-  version: number;
-  patch: string;
+        <h1>RFC 104: Secure Relational Persistence Model</h1>
+        <p>Status: <strong>PROPOSED</strong> • Author: <strong>${currentUser.name}</strong></p>
+        <h2>Abstract</h2>
+        <p>This technical RFC proposes an atomic persistence architecture using SQLite in Write-Ahead Logging (WAL) mode.</p>
+        <pre><code>interface DocPermission {
+  userId: string;
+  role: 'owner' | 'editor' | 'viewer';
+  canMutate: boolean;
 }</code></pre>
       `;
     }
@@ -140,13 +173,17 @@ export const App: React.FC = () => {
   };
 
   const handleDeleteDocument = async (id: string, title: string) => {
-    if (!window.confirm(`Are you sure you want to delete "${title}"? This cannot be undone.`)) {
+    if (!window.confirm(`Move "${title}" to trash? This will remove access for all collaborators.`)) {
       return;
     }
     try {
       await deleteDocument(id);
-      showToast(`Document "${title}" deleted`);
-      loadDocuments();
+      showToast(`Document "${title}" moved to trash`);
+      if (activeDocId === id) {
+        handleBackToDashboard();
+      } else {
+        loadDocuments();
+      }
     } catch (err: any) {
       showToast(err.message || 'Failed to delete document', 'error');
     }
@@ -159,7 +196,7 @@ export const App: React.FC = () => {
       await updateDocument(currentDoc.id, { title: newTitle });
       setCurrentDoc(prev => prev ? { ...prev, title: newTitle } : null);
       setSaveStatus('saved');
-      showToast('Document title renamed');
+      showToast('Document title updated');
     } catch (err: any) {
       showToast(err.message || 'Failed to rename document', 'error');
       setSaveStatus('saved');
@@ -190,70 +227,64 @@ export const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#f8f9fa] text-slate-800">
-      {/* Top Navbar */}
-      <Navbar
-        currentDoc={currentDoc}
-        onBackToDashboard={handleBackToDashboard}
-        onRenameTitle={handleRenameTitle}
-        saveStatus={saveStatus}
-        onOpenShareModal={() => {
-          if (currentDoc) {
-            setShareTargetDoc({
-              id: currentDoc.id,
-              title: currentDoc.title,
-              owner: currentDoc.owner,
-              isOwner: currentDoc.isOwner,
-              collaborators: currentDoc.collaborators
-            });
-            setIsShareModalOpen(true);
-          }
-        }}
-        onOpenAttachments={() => setIsAttachmentsOpen(true)}
-        onOpenVersionHistory={() => setIsVersionHistoryOpen(true)}
-      />
+    <div className="min-h-screen flex flex-col bg-[#f8f9fa] text-[#202124]">
+      {/* View Switching: Either Full Google Docs Editor or Google Docs Dashboard */}
+      {activeDocId && currentDoc ? (
+        <div className="flex-1 flex flex-col">
+          {/* Authentic Google Docs Top Bar & Menus */}
+          <GoogleDocsHeader
+            currentDoc={currentDoc}
+            onBackToDashboard={handleBackToDashboard}
+            onRenameTitle={handleRenameTitle}
+            saveStatus={saveStatus}
+            onOpenShareModal={() => {
+              setShareTargetDoc({
+                id: currentDoc.id,
+                title: currentDoc.title,
+                owner: currentDoc.owner,
+                isOwner: currentDoc.isOwner,
+                collaborators: currentDoc.collaborators
+              });
+              setIsShareModalOpen(true);
+            }}
+            onOpenAttachments={() => setIsAttachmentsOpen(true)}
+            onOpenVersionHistory={() => setIsVersionHistoryOpen(true)}
+            onNewDoc={handleCreateDocument}
+            onDeleteDoc={() => handleDeleteDocument(currentDoc.id, currentDoc.title)}
+          />
 
-      {/* Main View Area */}
-      <main className="flex-1 flex flex-col">
-        {activeDocId && currentDoc ? (
-          /* Editor View */
+          {/* Authentic Google Docs Paper Canvas & Toolbar */}
           <RichTextEditor
-            key={`${currentDoc.id}-${currentUser?.id}`}
+            key={`${currentDoc.id}-${currentUser.id}`}
             initialContent={currentDoc.content}
             canEdit={currentDoc.canEdit}
             userRole={currentDoc.userRole}
             onSaveContent={handleSaveContent}
             onSaveStatusChange={setSaveStatus}
           />
-        ) : (
-          /* Dashboard Home View */
-          <div>
-            <DashboardHeader
-              onNewDoc={handleCreateDocument}
-              onImportClick={() => setIsUploadModalOpen(true)}
-              searchQuery={searchQuery}
-              onSearchChange={setSearchQuery}
-            />
-
-            <DocumentList
-              documents={documents}
-              activeTab={activeTab}
-              onTabChange={setActiveTab}
-              onOpenDoc={handleOpenDoc}
-              onDeleteDoc={handleDeleteDocument}
-              onShareDoc={handleShareDocFromCard}
-              onNewDoc={() => handleCreateDocument()}
-              isLoading={isLoadingDocs}
-            />
-          </div>
-        )}
-      </main>
+        </div>
+      ) : (
+        /* Authentic Google Docs Dashboard Home */
+        <GoogleDocsDashboard
+          documents={documents}
+          activeTab={activeTab}
+          onTabChange={setActiveTab}
+          onOpenDoc={handleOpenDoc}
+          onDeleteDoc={handleDeleteDocument}
+          onShareDoc={handleShareDocFromCard}
+          onNewDoc={handleCreateDocument}
+          onImportClick={() => setIsUploadModalOpen(true)}
+          searchQuery={searchQuery}
+          onSearchChange={setSearchQuery}
+          isLoading={isLoadingDocs}
+        />
+      )}
 
       {/* Toast Alert */}
       {toast && (
         <div className="fixed bottom-5 left-6 z-50 animate-in slide-in-from-bottom-3 duration-200">
           <div
-            className={`flex items-center gap-2.5 px-4 py-2.5 rounded-xl shadow-lg border text-xs font-medium text-white ${
+            className={`flex items-center gap-2.5 px-4 py-2.5 rounded-full shadow-lg border text-xs font-medium text-white ${
               toast.type === 'error'
                 ? 'bg-rose-600 border-rose-700'
                 : toast.type === 'info'
@@ -279,9 +310,9 @@ export const App: React.FC = () => {
         </div>
       )}
 
-      {/* Modals */}
+      {/* Google Docs Share Dialog */}
       {isShareModalOpen && shareTargetDoc && (
-        <ShareModal
+        <GoogleDocsShareDialog
           isOpen={isShareModalOpen}
           onClose={() => {
             setIsShareModalOpen(false);
@@ -303,6 +334,7 @@ export const App: React.FC = () => {
         />
       )}
 
+      {/* File Upload Ingestion Modal */}
       {isUploadModalOpen && (
         <FileUploadModal
           isOpen={isUploadModalOpen}
@@ -315,6 +347,7 @@ export const App: React.FC = () => {
         />
       )}
 
+      {/* Document Attachments Drawer */}
       {isAttachmentsOpen && currentDoc && (
         <AttachmentsDrawer
           isOpen={isAttachmentsOpen}
@@ -329,6 +362,7 @@ export const App: React.FC = () => {
         />
       )}
 
+      {/* Version History Modal */}
       {isVersionHistoryOpen && currentDoc && (
         <VersionHistoryModal
           isOpen={isVersionHistoryOpen}
