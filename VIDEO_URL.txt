@@ -2,6 +2,7 @@
 Ajaia LLC - AI-Native Full Stack Developer Assignment
 Walkthrough Video Recording Link
 Candidate: Vaishnavi A S (2023vaishnavi.as@vidyashilp.edu.in)
+Live Demo URL: https://ajaia-docs-86qh.onrender.com
 =====================================================
 
 Walkthrough Video URL:
