@@ -11,7 +11,7 @@
 
 | Deliverable | Status | Location / Reference |
 | :--- | :---: | :--- |
-| **Full Source Code** | ✅ Complete | Complete repository (`server/`, `client/`, `package.json`) |
+| **Full Source Code** | ✅ Complete | [GitHub: Vaishnavi-A-S/docs](https://github.com/Vaishnavi-A-S/docs) |
 | **Comprehensive README** | ✅ Complete | [`README.md`](./README.md) with step-by-step setup and test instructions |
 | **System Architecture Note** | ✅ Complete | [`ARCHITECTURE.md`](./ARCHITECTURE.md) (design, data model, tradeoffs) |
 | **AI Workflow Note** | ✅ Complete | [`AI_WORKFLOW.md`](./AI_WORKFLOW.md) (tools used, speedups, rejected outputs) |
