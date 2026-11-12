@@ -119,7 +119,15 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
   const currentHtml = editor ? editor.getHTML() : initialContent;
 
   return (
-    <div className="flex flex-col flex-1 bg-[#f8f9fa] min-h-screen">
+    <div className="flex flex-col flex-1 bg-[#00091f] min-h-screen relative">
+      {/* Ambient Cosmic Background Glow */}
+      <div
+        className="fixed inset-0 pointer-events-none"
+        style={{
+          background: 'radial-gradient(circle at 50% 0%, rgba(0, 29, 107, 0.4) 0%, rgba(0, 9, 31, 0.98) 70%, #00060f 100%)'
+        }}
+      />
+
       {/* 1. Google Docs Action Toolbar */}
       <GoogleDocsToolbar
         editor={editor}
@@ -132,14 +140,14 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
       {/* 2. Interactive Document Ruler */}
       <GoogleDocsRuler />
 
-      {/* 3. Google Docs Physical Paper Canvas */}
-      <div className="flex-1 overflow-y-auto px-4 py-6 flex justify-center bg-[#f8f9fa]">
+      {/* 3. Authentic High-Contrast Physical Paper Canvas */}
+      <div className="flex-1 overflow-y-auto px-4 py-8 flex justify-center bg-transparent relative z-10">
         <div
-          className="w-full max-w-[850px] bg-white rounded-[2px] transition-all print-page"
+          className="w-full max-w-[850px] bg-white text-[#1f1f1f] rounded-[2px] transition-all print-page"
           style={{
             minHeight: '1056px',
             padding: '72px 72px 96px 72px',
-            boxShadow: '0 1px 3px 1px rgba(60,64,67,.15), 0 1px 2px 0 rgba(60,64,67,.3)'
+            boxShadow: '0 12px 48px rgba(0, 9, 31, 0.8), 0 2px 10px rgba(151, 194, 248, 0.15)'
           }}
         >
           <EditorContent editor={editor} />

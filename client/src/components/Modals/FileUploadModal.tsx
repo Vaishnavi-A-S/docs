@@ -63,37 +63,37 @@ export const FileUploadModal: React.FC<FileUploadModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-in fade-in duration-150">
-      <div className="bg-white rounded-2xl shadow-2xl border border-slate-200 w-full max-w-md overflow-hidden">
+    <div className="fixed inset-0 bg-[#00060f]/80 backdrop-blur-md flex items-center justify-center p-4 z-50 animate-in fade-in duration-150 select-none text-[#f1f7ff]">
+      <div className="bg-[#001244] rounded-3xl shadow-2xl border border-[#97c2f8]/30 w-full max-w-md overflow-hidden">
         {/* Header */}
-        <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="p-2 bg-blue-50 text-blue-600 rounded-lg">
+        <div className="px-6 py-4 border-b border-white/10 flex items-center justify-between">
+          <div className="flex items-center gap-2.5">
+            <div className="p-2 bg-[#001d6b] text-[#97c2f8] border border-[#97c2f8]/30 rounded-xl">
               <UploadCloud className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="text-base font-semibold text-slate-800">Import Document File</h2>
-              <p className="text-xs text-slate-500">Convert local files into editable documents</p>
+              <h2 className="text-base font-bold text-[#f1f7ff]">Import Deliverable File</h2>
+              <p className="text-[11px] text-[#aebfe2]">Converts Markdown, Text, or HTML into an editable doc</p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors"
+            className="p-1 rounded-lg text-[#aebfe2] hover:text-white hover:bg-white/10 transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        {/* Content */}
+        {/* Body */}
         <div className="p-6 space-y-4">
           {error && (
-            <div className="p-3 bg-red-50 border border-red-200 text-red-700 rounded-lg text-xs flex items-start gap-2">
+            <div className="p-3 bg-red-950/60 border border-red-500/40 text-red-300 rounded-xl text-xs flex items-start gap-2">
               <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
               <span>{error}</span>
             </div>
           )}
 
-          {/* Dropzone */}
+          {/* Drag & Drop Zone */}
           <div
             onDragOver={e => {
               e.preventDefault();
@@ -102,76 +102,86 @@ export const FileUploadModal: React.FC<FileUploadModalProps> = ({
             onDragLeave={() => setIsDragging(false)}
             onDrop={handleDrop}
             onClick={() => fileInputRef.current?.click()}
-            className={`border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-colors ${
+            className={`border-2 border-dashed rounded-2xl p-6 text-center cursor-pointer transition-all ${
               isDragging
-                ? 'border-blue-500 bg-blue-50/50'
+                ? 'border-[#97c2f8] bg-[#001d6b]/50'
                 : file
-                ? 'border-emerald-400 bg-emerald-50/30'
-                : 'border-slate-300 hover:border-blue-400 hover:bg-slate-50'
+                ? 'border-emerald-400 bg-emerald-950/30'
+                : 'border-[#97c2f8]/30 bg-[#00091f]/80 hover:border-[#97c2f8] hover:bg-[#001d6b]/30'
             }`}
           >
             <input
-              ref={fileInputRef}
               type="file"
-              accept=".md,.txt,.markdown,.html,.htm,.json"
-              className="hidden"
+              ref={fileInputRef}
               onChange={e => {
                 if (e.target.files && e.target.files[0]) {
                   validateAndSetFile(e.target.files[0]);
                 }
               }}
+              accept=".md,.txt,.markdown,.html,.htm,.json"
+              className="hidden"
             />
 
             {file ? (
-              <div className="flex flex-col items-center">
-                <div className="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mb-3">
+              <div className="space-y-2">
+                <div className="w-12 h-12 bg-emerald-900/50 text-emerald-400 rounded-full flex items-center justify-center mx-auto border border-emerald-400/40">
                   <CheckCircle2 className="w-6 h-6" />
                 </div>
-                <p className="text-sm font-semibold text-slate-800 break-all">{file.name}</p>
-                <p className="text-xs text-slate-500 mt-1">{(file.size / 1024).toFixed(1)} KB</p>
-                <span className="text-xs text-blue-600 mt-3 hover:underline">Click or drag another to replace</span>
+                <div>
+                  <p className="text-xs font-bold text-[#f1f7ff] truncate max-w-[260px] mx-auto">{file.name}</p>
+                  <p className="text-[10px] text-[#aebfe2]">{(file.size / 1024).toFixed(1)} KB • Ready to convert</p>
+                </div>
+                <button
+                  type="button"
+                  onClick={e => {
+                    e.stopPropagation();
+                    setFile(null);
+                  }}
+                  className="text-[11px] text-red-400 hover:underline pt-1"
+                >
+                  Choose a different file
+                </button>
               </div>
             ) : (
-              <div className="flex flex-col items-center">
-                <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mb-3">
-                  <FileText className="w-6 h-6" />
+              <div className="space-y-2">
+                <div className="w-12 h-12 bg-[#001d6b] text-[#97c2f8] border border-[#97c2f8]/30 rounded-full flex items-center justify-center mx-auto shadow-md">
+                  <UploadCloud className="w-6 h-6" />
                 </div>
-                <p className="text-sm font-medium text-slate-700">
-                  Drag and drop your file here, or <span className="text-blue-600 font-semibold">browse</span>
-                </p>
-                <p className="text-xs text-slate-400 mt-2">
-                  Supported formats: <strong>.md</strong>, <strong>.txt</strong>, <strong>.html</strong>, <strong>.json</strong>
-                </p>
+                <div>
+                  <p className="text-xs font-bold text-[#f1f7ff]">
+                    Click to select or drag and drop
+                  </p>
+                  <p className="text-[11px] text-[#aebfe2] mt-0.5">
+                    Markdown (.md), Text (.txt), or HTML (.html)
+                  </p>
+                </div>
+                <p className="text-[10px] text-[#97c2f8]/80 font-mono">Maximum file size: 10MB</p>
               </div>
             )}
           </div>
 
-          <div className="bg-slate-50 p-3 rounded-lg border border-slate-100 text-xs text-slate-600 space-y-1">
-            <p className="font-semibold text-slate-700">What happens on import:</p>
-            <p>• Markdown headings, lists, bold, and code formatting are converted automatically.</p>
-            <p>• Document title is extracted directly from the filename.</p>
-            <p>• Saved immediately with your user account as owner.</p>
+          {/* Format Information pill */}
+          <div className="p-3 bg-[#00091f] rounded-xl border border-[#97c2f8]/20 text-[11px] text-[#aebfe2] space-y-1">
+            <p className="font-bold text-[#97c2f8]">Supported Ingestion Engine:</p>
+            <p>• Markdown headings, bold, italics, quotes, lists, and tables are preserved.</p>
+            <p>• Creates an active deliverable you own and can immediately share with team members.</p>
           </div>
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-4 bg-slate-50 border-t border-slate-100 flex items-center justify-end gap-2">
+        <div className="px-6 py-4 bg-[#00091f] border-t border-[#97c2f8]/20 flex items-center justify-end gap-2.5">
           <button
             onClick={onClose}
-            className="px-4 py-2 border border-slate-200 text-slate-600 hover:bg-slate-100 rounded-lg text-xs font-medium transition-colors"
+            className="px-4 py-2 text-xs font-semibold text-[#aebfe2] hover:text-white hover:bg-white/10 rounded-full transition-colors"
           >
             Cancel
           </button>
           <button
             onClick={handleUpload}
             disabled={!file || isUploading}
-            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-medium transition-colors disabled:opacity-50 flex items-center gap-1.5"
+            className="bg-[#97c2f8] hover:bg-[#c4dcfb] text-[#00091f] font-bold px-5 py-2 rounded-full text-xs transition-all disabled:opacity-40 disabled:cursor-not-allowed shadow-md shadow-blue-500/20"
           >
-            {isUploading ? (
-              <span>Importing & Processing...</span>
-            ) : (
-              <span>Import as New Document</span>
-            )}
+            {isUploading ? 'Converting...' : 'Import & Open'}
           </button>
         </div>
       </div>

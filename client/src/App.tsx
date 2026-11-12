@@ -92,8 +92,11 @@ export const App: React.FC = () => {
   // If user is not signed in, show the dedicated Google Docs Sign-In page
   if (authLoading) {
     return (
-      <div className="min-h-screen bg-[#f8f9fa] flex items-center justify-center text-xs text-slate-500">
-        Loading workspace...
+      <div className="min-h-screen bg-[#00091f] text-[#97c2f8] flex flex-col items-center justify-center text-xs font-medium space-y-3">
+        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#001d6b] via-[#1a73e8] to-[#97c2f8] border border-[#97c2f8]/40 animate-pulse flex items-center justify-center text-white shadow-lg shadow-blue-900/40">
+          <span className="font-bold text-sm">A</span>
+        </div>
+        <p className="tracking-wide">Initializing Ajaia Workspace...</p>
       </div>
     );
   }
