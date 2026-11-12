@@ -5,7 +5,7 @@
   "author": "Vaishnavi A S (2023vaishnavi.as@vidyashilp.edu.in)",
   "private": true,
   "scripts": {
-    "install:all": "npm install && cd server && npm install && cd ../client && npm install",
+    "install:all": "npm install --include=dev && cd server && npm install --include=dev && cd ../client && npm install --include=dev",
     "dev": "concurrently -n \"server,client\" -c \"blue,green\" \"npm run dev:server\" \"npm run dev:client\"",
     "dev:server": "cd server && npm run dev",
     "dev:client": "cd client && npm run dev",
