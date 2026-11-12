@@ -1,0 +1,20 @@
+=====================================================
+Ajaia LLC - AI-Native Full Stack Developer Assignment
+Walkthrough Video Recording Link
+Candidate: Vaishnavi A S (2023vaishnavi.as@vidyashilp.edu.in)
+=====================================================
+
+Walkthrough Video URL:
+https://www.loom.com/share/YOUR-LOOM-VIDEO-LINK-HERE
+(or unlisted YouTube link: https://youtu.be/YOUR-UNLISTED-LINK-HERE)
+
+Duration: 3-5 minutes
+Topics Covered:
+1. End-to-end user flow (creation, rich editing, auto-save)
+2. File ingestion (.md import) and document attachments
+3. Sharing model (Owner, Editor, Viewer persona testing)
+4. Key implementation & architectural decisions
+5. AI workflow note (leverage, speedups, and rejected outputs)
+
+Please refer to WALKTHROUGH_SCRIPT.md for the complete spoken script used during recording.
+=====================================================
