@@ -2,7 +2,7 @@ import { db, initDb } from './index.js';
 import { v4 as uuidv4 } from 'uuid';
 
 export function seed() {
-  console.log('🌱 Seeding database with 4 corporate team members and Google Docs templates...');
+  console.log('🌱 Seeding database with Ajaia AI Strategy & Engineering documents...');
 
   // Drop tables to apply updated schema
   db.exec(`
@@ -25,9 +25,9 @@ export function seed() {
       id: 'user-vaishnavi',
       name: 'Vaishnavi A S',
       email: 'vaishnavi@ajaia.io',
-      avatarColor: '#1a73e8', // Google Docs Blue
-      roleTitle: 'Lead Product Engineer (Candidate)',
-      department: 'Product Engineering',
+      avatarColor: '#1a73e8', // Ajaia Core Blue
+      roleTitle: 'Lead AI Engineer (Candidate)',
+      department: 'AI Strategy & Custom Dev',
       password: 'password123'
     },
     {
@@ -35,8 +35,8 @@ export function seed() {
       name: 'Alex Rivera',
       email: 'alex.rivera@ajaia.io',
       avatarColor: '#9333ea', // Purple
-      roleTitle: 'Director of Product Management',
-      department: 'Product Evaluation',
+      roleTitle: 'Engagement Partner & Product Lead',
+      department: 'Client Advisory',
       password: 'password123'
     },
     {
@@ -44,17 +44,17 @@ export function seed() {
       name: 'Priya Sharma',
       email: 'priya.sharma@ajaia.io',
       avatarColor: '#0d9488', // Teal
-      roleTitle: 'Staff Systems Architect',
-      department: 'Platform Engineering',
+      roleTitle: 'Staff Systems Architect (Client Lead)',
+      department: 'Enterprise Platform',
       password: 'password123'
     },
     {
       id: 'user-marcus',
       name: 'Marcus Chen',
       email: 'marcus.chen@ajaia.io',
-      avatarColor: '#ea580c', // Orange/Amber
-      roleTitle: 'Security & Compliance Lead',
-      department: 'Information Security',
+      avatarColor: '#ea580c', // Coral/Amber
+      roleTitle: 'Security & Governance Officer',
+      department: 'Information Security & HIPAA',
       password: 'password123'
     }
   ];
@@ -78,160 +78,161 @@ export function seed() {
     VALUES (?, ?, ?, ?, ?, ?, datetime('now', ?))
   `);
 
-  // Document 1: Product Strategy (Owned by Vaishnavi)
+  // Document 1: Ajaia AI Strategy & Advisory Roadmap
   const doc1Id = 'doc-prod-strategy';
   const doc1Content = `
-    <h1>Product Vision: Ajaia Collaborative Workspace</h1>
-    <p>Welcome to <strong>Ajaia Docs</strong>, a lightweight collaborative document editor engineered for velocity, clarity, and team cohesion.</p>
-    
-    <h2>Core Value Propositions</h2>
-    <p>Our research revealed that modern cross-functional teams lose up to <em>28% of their creative momentum</em> switching between fragmented writing and task surfaces.</p>
+    <h1>Enterprise AI Strategy & Roadmap: HealthTech Modernization</h1>
+    <p>Client Deliverable prepared by <strong>Ajaia LLC</strong> (AI Strategy & Engineering Practice).</p>
+    <p>Lead AI Consultant: <strong>Vaishnavi A S</strong> • Engagement Lead: <strong>Alex Rivera</strong></p>
+
+    <h2>1. Executive Summary</h2>
+    <p>This engagement transitions our healthcare client from exploratory generative AI pilots into a <strong>governed, production-ready AI ecosystem</strong>. By establishing private model infrastructure and workflow automation, the client will realize a projected <em>42% reduction in administrative overhead</em> while maintaining strict HIPAA compliance.</p>
+
+    <h2>2. Strategic Pillars & Workstreams</h2>
     <ul>
-      <li><strong>Immediate Frictionless Authoring:</strong> Instant loading without heavy telemetry bloat.</li>
-      <li><strong>Permission-Aware Collaboration:</strong> Explicit owner, editor, and viewer boundaries.</li>
-      <li><strong>Native File Imports:</strong> Direct ingestion of Markdown and plaintext knowledge.</li>
+      <li><strong>Pillar 1 — AI Strategy & Governance:</strong> Establish multi-stakeholder AI governance committee and model evaluation framework.</li>
+      <li><strong>Pillar 2 — Custom Multi-Model Gateway:</strong> Deploy intelligent model routing across Anthropic Claude (clinical reasoning) and OpenAI (summarization).</li>
+      <li><strong>Pillar 3 — Autonomous Clinical Workflow Agents:</strong> Automate prior-authorization packet synthesis and medical records indexing.</li>
+      <li><strong>Pillar 4 — Workforce Enablement:</strong> Roll out specialized prompt engineering SOPs for 400+ clinical and administrative personnel.</li>
     </ul>
 
-    <h2>Q4 Strategic Milestones</h2>
-    <ol>
-      <li>Deploy persistent workspace with instant autosave.</li>
-      <li>Ship granular access control with role differentiation.</li>
-      <li>Support drag-and-drop file imports and multi-format document attachments.</li>
-    </ol>
+    <h2>3. Architecture & Security Tenets</h2>
+    <blockquote>"Enterprise AI adoption fails at the boundary of data privacy and unverified accuracy. Deterministic guardrails are mandatory." — Ajaia Engineering Tenet</blockquote>
 
-    <blockquote>"Simplicity in architecture yields velocity in execution." — Product Engineering Tenet</blockquote>
-
-    <pre><code>// Example access verification logic
-const canEdit = userRole === 'owner' || userRole === 'editor';
-if (!canEdit) throw new ForbiddenError('Viewing mode only');</code></pre>
+    <pre><code>// Ajaia Governance Gateway routing check
+export async function routeClinicalPrompt(prompt: string): Promise<ModelTarget> {
+  const containsPHI = await scanForProtectedHealthInfo(prompt);
+  if (containsPHI) {
+    return { model: 'private-vpc-claude-3-5', encryption: 'AES-256' };
+  }
+  return { model: 'standard-gateway', costTier: 'optimized' };
+}</code></pre>
   `;
 
   insertDoc.run(
     doc1Id,
-    'Product Vision: Ajaia Collaborative Workspace',
+    'Enterprise AI Strategy & Roadmap: HealthTech Modernization',
     doc1Content.trim(),
     'user-vaishnavi',
     '-2 days',
     '-10 minutes'
   );
 
-  // Collaborators for Doc 1
   insertCollab.run(uuidv4(), doc1Id, 'user-alex', 'editor');
   insertCollab.run(uuidv4(), doc1Id, 'user-priya', 'viewer');
 
-  // Seed versions for Doc 1
   insertVersion.run(
     uuidv4(),
     doc1Id,
-    'Product Vision (Initial Draft)',
-    '<h1>Product Vision Draft</h1><p>Initial draft by Vaishnavi outlining core product milestones.</p>',
+    'Enterprise AI Strategy Draft v1.0',
+    '<h1>Enterprise AI Strategy Initial Draft</h1><p>Initial assessment and stakeholder interviews by Vaishnavi A S.</p>',
     'user-vaishnavi',
-    'v1.0 - Initial Draft',
+    'v1.0 - Discovery Phase',
     '-2 days'
   );
 
   insertVersion.run(
     uuidv4(),
     doc1Id,
-    'Product Vision: Ajaia Collaborative Workspace',
+    'Enterprise AI Strategy & Roadmap: HealthTech Modernization',
     doc1Content.trim(),
     'user-vaishnavi',
-    'v1.1 - Added Technical Tenets',
+    'v1.1 - Added Security & Routing Spec',
     '-10 minutes'
   );
 
-  // Document 2: Sprint Notes (Owned by Alex)
+  // Document 2: Agent Workflow Spec (Owned by Alex)
   const doc2Id = 'doc-sprint-notes';
   const doc2Content = `
-    <h1>Sprint 42: Execution Notes & Review Goals</h1>
-    <p>Led by <strong>Alex Rivera</strong>. Focus this sprint is evaluating candidate full-stack submissions and validating production architecture.</p>
-    
-    <h2>Evaluation Checklist</h2>
-    <ul>
-      <li><strong>Document Creation & Editing:</strong> Does the editing flow feel coherent, robust, and responsive?</li>
-      <li><strong>File Upload & Attachment:</strong> Can files be imported cleanly or attached to documents?</li>
-      <li><strong>Sharing Model:</strong> Is there a visible distinction between owned and shared documents? Can access be switched?</li>
-      <li><strong>Code & AI-Workflow Quality:</strong> Are the design notes and AI-usage reflections grounded in genuine engineering judgment?</li>
-    </ul>
+    <h1>Agentic Workflow Specification: Automated Financial Due Diligence Bot</h1>
+    <p>Author: <strong>Alex Rivera</strong> (Ajaia Advisory Practice) • Reviewer: <strong>Vaishnavi A S</strong></p>
 
-    <p><em>Status:</em> Currently reviewing the live deployment and verifying Vitest coverage.</p>
+    <h2>1. System Objective</h2>
+    <p>Design an autonomous multi-agent pipeline (Ajaia Scout Engine) that ingests 10-K filings, earnings transcripts, and private equity deal rooms to output synthesized investment memos.</p>
+
+    <h2>2. Multi-Agent Pipeline Stages</h2>
+    <ol>
+      <li><strong>Ingestion Agent:</strong> Extracts tables, footnotes, and regulatory warnings from raw PDF disclosures.</li>
+      <li><strong>Reconciliation Agent:</strong> Cross-checks reported GAAP metrics against non-GAAP definitions.</li>
+      <li><strong>Risk Synthesis Agent:</strong> Generates executive red-flag summaries and ESG risk ratings.</li>
+      <li><strong>Human-in-the-Loop Checkpoint:</strong> Requires managing director sign-off before publishing deal briefing.</li>
+    </ol>
+
+    <h2>3. Acceptance Criteria</h2>
+    <ul>
+      <li>Sub-4-minute processing time for 200-page prospectus documents.</li>
+      <li>Zero hallucinated numerical figures (100% citation verification against source PDF offsets).</li>
+    </ul>
   `;
 
   insertDoc.run(
     doc2Id,
-    'Sprint 42: Execution Notes & Review Goals',
+    'Agentic Workflow Specification: Automated Financial Due Diligence Bot',
     doc2Content.trim(),
     'user-alex',
     '-1 day',
     '-1 hour'
   );
 
-  // Vaishnavi is an Editor on Doc 2!
   insertCollab.run(uuidv4(), doc2Id, 'user-vaishnavi', 'editor');
 
   // Document 3: Architecture Guidelines (Owned by Priya)
   const doc3Id = 'doc-arch-guidelines';
   const doc3Content = `
-    <h1>Design Guidelines & System Architecture</h1>
-    <p>Authored by <strong>Priya Sharma</strong>. This document outlines our engineering standards for full-stack applications.</p>
-    
-    <h2>Persistence & Data Flow</h2>
-    <p>We mandate relational integrity with foreign key cascading and atomic transactions. SQLite WAL mode provides reliable multi-connection read performance with minimal memory overhead.</p>
+    <h1>Technical Architecture: Enterprise Multi-Model LLM Gateway</h1>
+    <p>Author: <strong>Priya Sharma</strong> (Staff Systems Architect) • Audience: <strong>Engineering & Governance</strong></p>
 
-    <h2>Security & Role Boundaries</h2>
-    <p>Every mutation endpoint must verify:</p>
-    <ol>
-      <li>Identity of the requesting principal.</li>
-      <li>Direct ownership or active collaboration membership.</li>
-      <li>Explicit role capability (e.g. <code>editor</code> can mutate content, but only <code>owner</code> can alter permissions or delete).</li>
-    </ol>
+    <h2>1. Purpose & Motivation</h2>
+    <p>Enterprise clients must avoid vendor lock-in. Ajaia's Multi-Model Gateway provides a unified API abstraction layer with automatic failover, latency caching, and token cost attribution.</p>
+
+    <h2>2. Core Gateway Capabilities</h2>
+    <ul>
+      <li><strong>Dynamic Provider Fallback:</strong> Seamless failover between Anthropic, OpenAI, and self-hosted open weights.</li>
+      <li><strong>Semantic Semantic Caching:</strong> 35% reduction in token burn rate for repetitive enterprise queries.</li>
+      <li><strong>Strict Data Perimeter:</strong> Zero retention agreements enforced across all downstream LLM endpoints.</li>
+    </ul>
   `;
 
   insertDoc.run(
     doc3Id,
-    'Design Guidelines & System Architecture',
+    'Technical Architecture: Enterprise Multi-Model LLM Gateway',
     doc3Content.trim(),
     'user-priya',
     '-3 days',
     '-5 hours'
   );
 
-  // Vaishnavi is a Viewer on Doc 3!
   insertCollab.run(uuidv4(), doc3Id, 'user-vaishnavi', 'viewer');
 
-  // Document 4: Getting Started Guide (Owned by Vaishnavi)
+  // Document 4: Welcome & AI-Native Operational Guide
   const doc4Id = 'doc-getting-started';
   const doc4Content = `
-    <h1>Welcome to Ajaia Docs 🚀</h1>
-    <p>This application was crafted by <strong>Vaishnavi A S</strong> for the Ajaia LLC AI-Native Full Stack Developer assignment.</p>
-    
-    <h2>What You Can Test in This Prototype:</h2>
+    <h1>Welcome to Ajaia Docs — AI-Native Collaborative Workspace</h1>
+    <p>Engineered by <strong>Vaishnavi A S</strong> for the <strong>Ajaia LLC</strong> Full-Stack Developer Assessment.</p>
+
+    <h2>Customized for Ajaia's Consulting & Engineering Workflows:</h2>
     <ul>
-      <li><strong>Rich Text Formatting:</strong> Select text to apply bold, italics, underlines, bulleted/numbered lists, or headings.</li>
-      <li><strong>Dynamic Renaming:</strong> Click on the title in the top toolbar to rename the document with instant auto-save.</li>
-      <li><strong>Simulated User Switching & Sign In:</strong> Sign in as <em>Vaishnavi</em> (Owner), <em>Alex</em> (Editor), <em>Priya</em> (Viewer), or <em>Marcus</em> to see permissions adapt live!</li>
-      <li><strong>File Upload & Ingestion:</strong> Click "Import File" to upload any Markdown or TXT file into a brand new document!</li>
-      <li><strong>File Attachments:</strong> Attach files directly to this document using the paperclip attachment panel.</li>
-      <li><strong>Document Sharing:</strong> Open the "Share" modal to grant viewer or editor rights to another team member or revoke them.</li>
-      <li><strong>Export Options:</strong> Export your document to Markdown, HTML, or formatted PDF printout.</li>
+      <li><strong>Specialized Consulting Templates:</strong> One-click creation of AI Strategy Roadmaps, Agentic SOPs, Technical RFCs, and Diligence Reports.</li>
+      <li><strong>✨ Built-in Ajaia AI Assistant:</strong> Click the "Ajaia AI" button on the toolbar to draft executive summaries, audit compliance (HIPAA / SOC 2), or generate action items directly into the document.</li>
+      <li><strong>Enterprise Role Enforcement:</strong> Switch between Vaishnavi (Owner), Alex (Partner/Editor), Priya (Client Lead/Viewer), and Marcus (Compliance Officer) to test strict permission boundaries.</li>
+      <li><strong>File Ingestion Engine:</strong> Ingest Markdown (.md) specs or attach client spreadsheets and PDFs to any document.</li>
     </ul>
-    
-    <p>Enjoy testing the experience!</p>
+
+    <p><em>"Turning AI into Measurable Business Impact."</em> — Ajaia LLC</p>
   `;
 
   insertDoc.run(
     doc4Id,
-    'Welcome to Ajaia Docs 🚀',
+    'Welcome to Ajaia Docs — AI-Native Collaborative Workspace',
     doc4Content.trim(),
     'user-vaishnavi',
     '-3 hours',
     '-2 minutes'
   );
 
-  console.log('✅ Database seeded successfully with 4 corporate team users and 4 rich documents!');
+  console.log('✅ Database seeded successfully with Ajaia AI workflows and documents!');
 }
 
-// Allow direct CLI execution
 if (process.argv[1]?.endsWith('seed.ts') || process.argv[1]?.endsWith('seed.js')) {
   seed();
 }

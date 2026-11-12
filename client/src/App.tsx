@@ -5,6 +5,7 @@ import { GoogleDocsHeader } from './components/GoogleDocs/GoogleDocsHeader';
 import { GoogleDocsDashboard } from './components/GoogleDocs/GoogleDocsDashboard';
 import { GoogleDocsShareDialog } from './components/GoogleDocs/GoogleDocsShareDialog';
 import { RichTextEditor } from './components/Editor/RichTextEditor';
+import { AjaiaAiPanel } from './components/Ajaia/AjaiaAiPanel';
 import { FileUploadModal } from './components/Modals/FileUploadModal';
 import { AttachmentsDrawer } from './components/Modals/AttachmentsDrawer';
 import { VersionHistoryModal } from './components/Modals/VersionHistoryModal';
@@ -35,6 +36,7 @@ export const App: React.FC = () => {
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
   const [isAttachmentsOpen, setIsAttachmentsOpen] = useState(false);
   const [isVersionHistoryOpen, setIsVersionHistoryOpen] = useState(false);
+  const [isAiPanelOpen, setIsAiPanelOpen] = useState(false);
   const [shareTargetDoc, setShareTargetDoc] = useState<{ id: string; title: string; owner: any; isOwner: boolean; collaborators: Collaborator[] } | null>(null);
 
   // Notification Toast state
@@ -209,6 +211,13 @@ export const App: React.FC = () => {
     setCurrentDoc(prev => prev ? { ...prev, content: htmlContent } : null);
   };
 
+  const handleInsertAiContent = async (htmlToInsert: string) => {
+    if (!currentDoc) return;
+    const combined = currentDoc.content ? `${currentDoc.content}\n${htmlToInsert}` : htmlToInsert;
+    await handleSaveContent(combined);
+    showToast('Ajaia AI generated content inserted into document');
+  };
+
   const handleShareDocFromCard = (docItem: DocumentListItem) => {
     setShareTargetDoc({
       id: docItem.id,
@@ -249,6 +258,7 @@ export const App: React.FC = () => {
             }}
             onOpenAttachments={() => setIsAttachmentsOpen(true)}
             onOpenVersionHistory={() => setIsVersionHistoryOpen(true)}
+            onOpenAiCopilot={() => setIsAiPanelOpen(true)}
             onNewDoc={handleCreateDocument}
             onDeleteDoc={() => handleDeleteDocument(currentDoc.id, currentDoc.title)}
           />
@@ -373,6 +383,17 @@ export const App: React.FC = () => {
             setCurrentDoc(prev => prev ? { ...prev, title: restoredTitle, content: restoredContent } : null);
             showToast(`Restored version: "${restoredTitle}"`);
           }}
+        />
+      )}
+
+      {/* Ajaia AI Copilot Assistant Panel */}
+      {isAiPanelOpen && currentDoc && (
+        <AjaiaAiPanel
+          isOpen={isAiPanelOpen}
+          onClose={() => setIsAiPanelOpen(false)}
+          documentTitle={currentDoc.title}
+          documentContent={currentDoc.content}
+          onInsertContent={handleInsertAiContent}
         />
       )}
     </div>

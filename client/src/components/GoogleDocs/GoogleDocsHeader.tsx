@@ -32,6 +32,7 @@ interface GoogleDocsHeaderProps {
   onOpenShareModal: () => void;
   onOpenAttachments: () => void;
   onOpenVersionHistory: () => void;
+  onOpenAiCopilot: () => void;
   onNewDoc: (template?: string) => void;
   onDeleteDoc: () => void;
 }
@@ -44,6 +45,7 @@ export const GoogleDocsHeader: React.FC<GoogleDocsHeaderProps> = ({
   onOpenShareModal,
   onOpenAttachments,
   onOpenVersionHistory,
+  onOpenAiCopilot,
   onNewDoc,
   onDeleteDoc
 }) => {
@@ -379,6 +381,16 @@ export const GoogleDocsHeader: React.FC<GoogleDocsHeaderProps> = ({
           >
             <History className="w-4 h-4 text-slate-500" />
             <span className="hidden lg:inline text-[12px]">History</span>
+          </button>
+
+          {/* Ajaia AI Copilot Button */}
+          <button
+            onClick={onOpenAiCopilot}
+            className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold px-3.5 py-1.5 rounded-full text-xs flex items-center gap-1.5 transition-all shadow-sm group"
+            title="Open Ajaia AI Copilot"
+          >
+            <Sparkles className="w-3.5 h-3.5 text-amber-300 group-hover:rotate-12 transition-transform" />
+            <span>Ajaia AI</span>
           </button>
 
           {/* Google Docs Signature Blue Share Button */}

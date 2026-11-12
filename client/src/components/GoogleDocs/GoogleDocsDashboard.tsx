@@ -216,14 +216,14 @@ export const GoogleDocsDashboard: React.FC<GoogleDocsDashboardProps> = ({
                   <div className="h-1.5 w-5/6 bg-slate-200 rounded-xs" />
                   <div className="h-1.5 w-4/6 bg-slate-100 rounded-xs" />
                 </div>
-                <div className="text-[10px] text-blue-600 font-semibold bg-blue-50 p-1 rounded">
-                  Strategy Template
+                <div className="text-[10px] text-blue-700 font-semibold bg-blue-50 p-1.5 rounded-sm border border-blue-200">
+                  AI Strategy & Roadmap
                 </div>
               </div>
-              <p className="text-xs font-medium text-[#1f1f1f] truncate group-hover:text-[#1a73e8]">Product Proposal</p>
+              <p className="text-xs font-semibold text-[#1f1f1f] truncate group-hover:text-[#1a73e8]">AI Strategy Roadmap</p>
             </div>
 
-            {/* Template: Meeting Notes */}
+            {/* Template: Agentic SOP */}
             <div className="flex flex-col gap-2 group cursor-pointer" onClick={() => onNewDoc('notes')}>
               <div className="h-36 bg-white border border-[#dadce0] hover:border-[#1a73e8] rounded-md shadow-2xs hover:shadow-md transition-all p-3 flex flex-col justify-between overflow-hidden">
                 <div className="space-y-1.5">
@@ -235,11 +235,11 @@ export const GoogleDocsDashboard: React.FC<GoogleDocsDashboardProps> = ({
                     <div className="h-1.5 flex-1 bg-slate-100 rounded-xs" />
                   </div>
                 </div>
-                <div className="text-[10px] text-purple-600 font-semibold bg-purple-50 p-1 rounded">
-                  Meeting Notes
+                <div className="text-[10px] text-purple-700 font-semibold bg-purple-50 p-1.5 rounded-sm border border-purple-200">
+                  Autonomous Agent SOP
                 </div>
               </div>
-              <p className="text-xs font-medium text-[#1f1f1f] truncate group-hover:text-[#1a73e8]">Sprint Notes</p>
+              <p className="text-xs font-semibold text-[#1f1f1f] truncate group-hover:text-[#1a73e8]">Agent Workflow Spec</p>
             </div>
 
             {/* Template: Engineering RFC */}
@@ -248,14 +248,14 @@ export const GoogleDocsDashboard: React.FC<GoogleDocsDashboardProps> = ({
                 <div className="space-y-1.5">
                   <div className="h-2 w-3/4 bg-amber-600 rounded-xs" />
                   <div className="h-10 bg-slate-900 rounded p-1.5 text-[8px] text-emerald-400 font-mono">
-                    interface Schema...
+                    interface Gateway...
                   </div>
                 </div>
-                <div className="text-[10px] text-amber-600 font-semibold bg-amber-50 p-1 rounded">
-                  Technical RFC
+                <div className="text-[10px] text-amber-800 font-semibold bg-amber-50 p-1.5 rounded-sm border border-amber-200">
+                  Multi-Model Gateway RFC
                 </div>
               </div>
-              <p className="text-xs font-medium text-[#1f1f1f] truncate group-hover:text-[#1a73e8]">Engineering Spec</p>
+              <p className="text-xs font-semibold text-[#1f1f1f] truncate group-hover:text-[#1a73e8]">Technical RFC</p>
             </div>
 
             {/* Quick Import Action */}
