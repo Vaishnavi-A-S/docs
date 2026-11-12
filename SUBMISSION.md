@@ -1,4 +1,4 @@
-# Assignment Submission Package
+https://drive.google.com/file/d/1MwZqpuKiqXo_tpjAEPKM8DDN4uy27xXW/view?usp=sharing# Assignment Submission Package
 **Company:** Ajaia LLC  
 **Role:** AI-Native Full Stack Developer  
 **Candidate:** Vaishnavi A S  
@@ -18,7 +18,7 @@
 | **AI Workflow Note** | ✅ Complete | [`AI_WORKFLOW.md`](./AI_WORKFLOW.md) (tools used, speedups, rejected outputs) |
 | **Submission Manifest** | ✅ Complete | This file ([`SUBMISSION.md`](./SUBMISSION.md)) |
 | **Walkthrough Video Script** | ✅ Complete | [`WALKTHROUGH_SCRIPT.md`](./WALKTHROUGH_SCRIPT.md) (3-5 min script) |
-| **Video Recording Link** | 🔗 Attached | `VIDEO_URL.txt` (Placeholder for Loom / Unlisted YouTube link) |
+| **Video Recording Link** | 🔗 Attached | (https://drive.google.com/file/d/1MwZqpuKiqXo_tpjAEPKM8DDN4uy27xXW/view?usp=sharing) |
 | **16 Automated Tests** | ✅ Complete | Passing integration test suite (`npm test`) |
 | **Sample Test File** | ✅ Complete | [`sample-strategy.md`](./sample-strategy.md) for instant import testing |
 
