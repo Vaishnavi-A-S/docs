@@ -26,8 +26,15 @@ app.use('/api/documents', authMiddleware, documentsRouter);
 app.use('/api/files', authMiddleware, filesRouter);
 
 // Serve Client static build in production
-const clientDistPath = path.resolve(process.cwd(), '../client/dist');
-if (fs.existsSync(clientDistPath)) {
+const candidatePaths = [
+  path.resolve(process.cwd(), 'client/dist'),
+  path.resolve(process.cwd(), '../client/dist'),
+  path.resolve(__dirname, '../../client/dist'),
+  path.resolve(__dirname, '../client/dist')
+];
+const clientDistPath = candidatePaths.find(p => fs.existsSync(p));
+
+if (clientDistPath) {
   app.use(express.static(clientDistPath));
   // Catch-all SPA handler
   app.get('*', (req, res, next) => {
