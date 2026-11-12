@@ -213,10 +213,21 @@ All endpoints support authentication via the `x-user-id` header (or `?userId=` q
 
 The project includes an integrated production build where Express serves the compiled React client:
 
-1. **Deploy to Render / Railway / Fly.io:**
-   - **Build Command:** `npm run build`
+### 1. One-Click Deploy on Render (Recommended)
+This repository includes a native [`render.yaml`](./render.yaml) blueprint specification:
+1. Log into your [Render Dashboard](https://dashboard.render.com/).
+2. Click **New +** > **Blueprint**.
+3. Connect your GitHub repository (`https://github.com/Vaishnavi-A-S/docs.git`).
+4. Render automatically parses `render.yaml`:
+   - **Environment:** Node.js 20+
+   - **Build Command:** `npm run build:render`
    - **Start Command:** `npm start`
-   - **Port:** Defaults to `process.env.PORT` (or 5000)
+   - **Health Check:** `/api/health`
+5. Click **Apply**. Render will build and deploy the app with automatic database initialization and persona seeding.
 
-2. **Deploy to Vercel (Frontend) + Render (Backend):**
-   - Point Vercel to `client/` directory with API rewrites.
+*(Alternatively, you can create a **Web Service** manually using the same build and start commands).*
+
+### 2. Deploy to Railway or Fly.io
+- **Build Command:** `npm run build:render`
+- **Start Command:** `npm start`
+- **Port:** Handled dynamically via `process.env.PORT`

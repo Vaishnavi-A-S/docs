@@ -1,0 +1,18 @@
+# Render Blueprint Specification for Ajaia Docs
+# Docs: https://render.com/docs/blueprint-spec
+
+services:
+  - type: web
+    name: ajaia-docs
+    runtime: node
+    plan: free
+    region: oregon
+    branch: main
+    buildCommand: npm run build:render
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
