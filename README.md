@@ -7,6 +7,10 @@
 [![Stack](https://img.shields.io/badge/stack-React%2018%20%7C%20Node%2020%20%7C%20TypeScript%20%7C%20SQLite-blue.svg)]()
 [![Architecture](https://img.shields.io/badge/architecture-WAL%20Relational%20Store-purple.svg)]()
 
+### 🌐 Live Demo: **[https://ajaia-docs-86qh.onrender.com](https://ajaia-docs-86qh.onrender.com)**
+
+> **Note:** Hosted on Render's free tier — the first load after inactivity may take ~30–50 seconds while the server wakes up. Demo data resets on each restart.
+
 > A lightweight, responsive, and permission-aware document workspace inspired by Google Docs, built within a focused 4–6 hour delivery timebox demonstrating full-stack engineering, clear prioritization, and AI-native craftsmanship.
 
 ---
@@ -214,6 +218,8 @@ All endpoints support authentication via the `x-user-id` header (or `?userId=` q
 The project includes an integrated production build where Express serves the compiled React client:
 
 ### 1. One-Click Deploy on Render (Recommended)
+
+**Live deployment:** [https://ajaia-docs-86qh.onrender.com](https://ajaia-docs-86qh.onrender.com)
 This repository includes a native [`render.yaml`](./render.yaml) blueprint specification:
 1. Log into your [Render Dashboard](https://dashboard.render.com/).
 2. Click **New +** > **Blueprint**.

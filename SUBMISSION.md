@@ -12,6 +12,7 @@
 | Deliverable | Status | Location / Reference |
 | :--- | :---: | :--- |
 | **Full Source Code** | ✅ Complete | [GitHub: Vaishnavi-A-S/docs](https://github.com/Vaishnavi-A-S/docs) |
+| **Live Deployment** | ✅ Live | [https://ajaia-docs-86qh.onrender.com](https://ajaia-docs-86qh.onrender.com) (Render, free tier — allow ~30–50s cold start) |
 | **Comprehensive README** | ✅ Complete | [`README.md`](./README.md) with step-by-step setup and test instructions |
 | **System Architecture Note** | ✅ Complete | [`ARCHITECTURE.md`](./ARCHITECTURE.md) (design, data model, tradeoffs) |
 | **AI Workflow Note** | ✅ Complete | [`AI_WORKFLOW.md`](./AI_WORKFLOW.md) (tools used, speedups, rejected outputs) |
@@ -60,6 +61,8 @@ npm run dev
 ---
 
 ## 4. Live Deployment Guidance
+
+**Live URL:** [https://ajaia-docs-86qh.onrender.com](https://ajaia-docs-86qh.onrender.com) — deployed on Render via [`render.yaml`](./render.yaml).
 
 The single-process architecture allows the entire full-stack app (client static bundle + API) to run from `npm start` on port 5000:
 - **Render / Railway / Fly.io / Heroku:** Build command: `npm run build`, Start command: `npm start`.
