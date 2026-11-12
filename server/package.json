@@ -10,6 +10,9 @@
     "seed": "node dist/db/seed.js",
     "test": "vitest run --fileParallelism=false"
   },
+  "engines": {
+    "node": "20.18.0"
+  },
   "dependencies": {
     "better-sqlite3": "^11.5.0",
     "cors": "^2.8.5",
